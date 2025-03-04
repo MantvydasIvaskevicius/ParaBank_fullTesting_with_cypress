@@ -1,0 +1,13 @@
+{
+  "firstName": "Petras",
+  "lastName": "Jonas",
+  "address": "Vilniaus g. 243, 2 aukštas",
+  "city": "Vilnius",
+  "state": "Vilniaus apskritis",
+  "zipCode": "LT-00100",
+  "phoneNumber": "(8-5) 123-4567",
+  "SSN": "563-93-4927",
+  "userName": "petras24",
+  "userPassword": "Petras2424",
+  "userConfirmPassword": "Petras2424"
+}
