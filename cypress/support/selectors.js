@@ -8,7 +8,41 @@ const selectors = {
     secondReadme: "ul.events",
     secondReadmeTitle: ".title",
 
-    signUpTitle:".title"
+    signUpTitle:".title",
+
+    customerLogin:"div[id='leftPanel'] h2",
+    logInInput:"input[name='username']",
+    passwordInput:"input[name='password']",
+    LogInBtn:"input[value='Log In']",
+
+    billPay:"a[href='billpay.htm']",
+    billPayVsbl:"div[id='billpayForm'] h1[class='title']",
+    payCompletevsbl:"div[id='billpayResult'] h1[class='title']",
+    accOverview:"a[href='overview.htm']",
+    accOverviewVsbl:"a[href='overview.htm']",
+    newAcc:"a[href='openaccount.htm']",
+    newAccVsbl:"div[id='openAccountForm'] h1[class='title']",
+    savings:"#type",
+    openNewAccBtn:'input[type="button"]',
+    successMsg:"body > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > p:nth-child(2)",
+
+    
+    tranfersFundsVsbl:"div[id='showForm'] h1[class='title']",
+    tranfersFunds:"a[href='transfer.htm']",
+    amount:"#amount",
+    toAccId:"#toAccountId",
+    tranferBtn:"input[value='Transfer']",
+    sendAmount:"#amountResult",
+    toAcc:"#toAccountIdResult",
+    fromAcc:"#fromAccountIdResult",
+
+    accnmbr:"a[href='activity.htm?id=13344']",
+    accDetailsVsbl:"div[id='accountDetails",
+    transactionVsbl:"body > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > table:nth-child(5) > tbody:nth-child(2) > tr:nth-child(1)"
+
+
+
+
 
 };
 
