@@ -148,3 +148,53 @@ Cypress.Commands.add('wronglogIn', () => {
         });
     });
     
+    Cypress.Commands.add('UpdateProfile', () => {
+            cy.get("input[id='customer.address.street']").clear().type("updatedAdress");
+            cy.get("input[id='customer.address.city']").clear().type("updatedCity");
+            cy.get("input[id='customer.address.state']").clear().type("updatedState");
+            cy.get("input[id='customer.address.zipCode']").clear().type("505165");
+            cy.get("input[value='Update Profile']").click();
+    
+      
+        });
+        Cypress.Commands.add('UpdateProfile2', () => {
+            cy.get("input[id='customer.firstName']").clear().type("updatedName2");
+            cy.get("input[id='customer.lastName']").clear().type("updatedLastName2");
+            cy.get("input[id='customer.phoneNumber']").clear().type("55584452");
+            cy.get("input[value='Update Profile']").click();
+    
+      
+        });
+        Cypress.Commands.add('emptyProfile', () => {
+            cy.get("input[id='customer.firstName']").click().clear();
+            cy.get("input[id='customer.address.state']").click().clear();
+            cy.get("input[id='customer.address.zipCode']").click().clear();
+            cy.get("input[value='Update Profile']").click();
+    
+      
+        });
+        Cypress.Commands.add('customerCareForm', () => {
+            cy.get("#name").type('Peter')
+            cy.get("#email").type('Peter123@gmail.com')
+            cy.get("#phone").type('16516216516')
+            cy.get("#message").type('help me fix this website')
+            cy.get("input[value='Send to Customer Care']").click();
+      
+        });
+        Cypress.Commands.add('findLogInInfo', () => {
+            cy.fixture('parabank.json').then((userData) => {
+                cy.get("#firstName").type(userData.firstName);
+                cy.get('#lastName').type(userData.lastName);
+                cy.get("input[id='address.street']").type(userData.address);
+                cy.get("input[id='address.city']").type(userData.city);
+                cy.get("input[id='address.state']").type(userData.state);
+                cy.get("input[id='address.zipCode']").type(userData.zipCode);
+                cy.get('#ssn').type(userData.SSN);
+
+        
+                cy.get("input[value='Find My Login Info']").click();
+        
+          
+            });
+        });
+        

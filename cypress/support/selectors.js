@@ -38,12 +38,25 @@ const selectors = {
 
     accnmbr:"a[href='activity.htm?id=13344']",
     accDetailsVsbl:"div[id='accountDetails",
-    transactionVsbl:"body > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > table:nth-child(5) > tbody:nth-child(2) > tr:nth-child(1)"
+    transactionVsbl:"body > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > table:nth-child(5) > tbody:nth-child(2) > tr:nth-child(1)",
+    updateContact:"a[href='updateprofile.htm']",
+    updatePrflVsbl:"div[id='updateProfileForm'] h1[class='title']",
+ 
+    successUpdt:"div[id='updateProfileResult'] p",
+    namereq:"#firstName-error",
+    statereq:"#state-error",
+    zipreq:"#zipCode-error",
 
-
-
-
-
+    reqLoanClk:"a[href='requestloan.htm']",
+    downPayment:"#downPayment",
+    applyNow:"input[value='Apply Now']",
+    loanResult:"div[id='requestLoanResult'] h1[class='title']",
+    customerCareBtn:"body > div:nth-child(1) > div:nth-child(2) > ul:nth-child(2) > li:nth-child(3) > a:nth-child(1)",
+    customerVsbl:".title",
+    succesupportMsg:"body > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > p:nth-child(3)",
+  
+    lookup:".title",
+    recoveraccsuccs:"body > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > p:nth-child(2)",
 };
 
 export default selectors;
