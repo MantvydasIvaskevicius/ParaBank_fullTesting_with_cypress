@@ -59,8 +59,8 @@ Cypress.Commands.add('registrationNoName', () => {
     cy.get("input[id='repeatedPassword']").type(password);
 
     cy.get("input[value='Register']").click();
-  
-    cy.get('table.form2 tbody tr').eq(0).find('td').eq(2).find('span') .should('exist').should('have.text','First name is required.')
+
+    cy.get('table.form2 tbody tr').eq(0).find('td').eq(2).find('span').should('exist').should('have.text', 'First name is required.')
 
 });
 Cypress.Commands.add('registrationWithWrongPass', () => {
@@ -81,8 +81,8 @@ Cypress.Commands.add('registrationWithWrongPass', () => {
     cy.get("input[id='repeatedPassword']").type("badPass");
 
     cy.get("input[value='Register']").click();
-  
-    cy.get('table.form2 tbody tr').eq(11).find('td').eq(2).find('span') .should('exist').should('have.text', 'Passwords did not match.')
+
+    cy.get('table.form2 tbody tr').eq(11).find('td').eq(2).find('span').should('exist').should('have.text', 'Passwords did not match.')
 
 });
 
@@ -109,8 +109,8 @@ Cypress.Commands.add('registrationAlreadyExist', () => {
 
 Cypress.Commands.add('logIn', () => {
     cy.fixture('parabank.json').then((userData) => {
-        
-        cy.get("div[id='leftPanel'] h2").should("be.visible").and('have.text','Customer Login')
+
+        cy.get("div[id='leftPanel'] h2").should("be.visible").and('have.text', 'Customer Login')
         cy.get("input[name='username']").type(userData.userName);
         cy.get("input[name='password']").type(userData.userPassword);
         cy.get("input[value='Log In']").click();
@@ -119,82 +119,133 @@ Cypress.Commands.add('logIn', () => {
 });
 Cypress.Commands.add('wronglogIn', () => {
 
-        cy.get("div[id='leftPanel'] h2").should("be.visible").and('have.text','Customer Login')
-        cy.get("input[name='username']").type(faker.person.firstName());
-        cy.get("input[name='password']").type(faker.internet.password());
-        cy.get("input[value='Log In']").click();
-        cy.get('.error').should("be.visible").and('have.text','An internal error has occurred and has been logged.')
+    cy.get("div[id='leftPanel'] h2").should("be.visible").and('have.text', 'Customer Login')
+    cy.get("input[name='username']").type(faker.person.firstName());
+    cy.get("input[name='password']").type(faker.internet.password());
+    cy.get("input[value='Log In']").click();
+    cy.get('.error').should("be.visible").and('have.text', 'An internal error has occurred and has been logged.')
 
-        
+
+
+});
+
+Cypress.Commands.add('payeeInfo', () => {
+    cy.fixture('parabank.json').then((userData) => {
+        cy.get("input[name='payee.name']").type(userData.firstName);
+        cy.get("input[name='payee.address.street']").type(userData.address);
+        cy.get("input[name='payee.address.city']").type(userData.city);
+        cy.get("input[name='payee.address.state']").type(userData.state);
+        cy.get("input[name='payee.address.zipCode']").type(userData.zipCode);
+        cy.get('input[name="payee.phoneNumber"]').type(userData.phoneNumber);
+
+        cy.get("input[name='payee.accountNumber']").type(userData.accountNumber);
+        cy.get("input[name='verifyAccount']").type(userData.verifyAccountNumber);
+        cy.get("input[name='amount']").type(userData.amount);
+
+        cy.get("input[value='Send Payment']").click();
+
 
     });
+});
 
-    Cypress.Commands.add('payeeInfo', () => {
-        cy.fixture('parabank.json').then((userData) => {
-            cy.get("input[name='payee.name']").type(userData.firstName);
-            cy.get("input[name='payee.address.street']").type(userData.address);
-            cy.get("input[name='payee.address.city']").type(userData.city);
-            cy.get("input[name='payee.address.state']").type(userData.state);
-            cy.get("input[name='payee.address.zipCode']").type(userData.zipCode);
-            cy.get('input[name="payee.phoneNumber"]').type(userData.phoneNumber);
-    
-            cy.get("input[name='payee.accountNumber']").type(userData.accountNumber);
-            cy.get("input[name='verifyAccount']").type(userData.verifyAccountNumber);
-            cy.get("input[name='amount']").type(userData.amount);
-    
-            cy.get("input[value='Send Payment']").click();
-    
-      
-        });
+Cypress.Commands.add('UpdateProfile', () => {
+    cy.get("input[id='customer.address.street']").clear().type("updatedAdress");
+    cy.get("input[id='customer.address.city']").clear().type("updatedCity");
+    cy.get("input[id='customer.address.state']").clear().type("updatedState");
+    cy.get("input[id='customer.address.zipCode']").clear().type("505165");
+    cy.get("input[value='Update Profile']").click();
+
+
+});
+Cypress.Commands.add('UpdateProfile2', () => {
+    cy.get("input[id='customer.firstName']").clear().type("updatedName2");
+    cy.get("input[id='customer.lastName']").clear().type("updatedLastName2");
+    cy.get("input[id='customer.phoneNumber']").clear().type("55584452");
+    cy.get("input[value='Update Profile']").click();
+
+
+});
+Cypress.Commands.add('emptyProfile', () => {
+    cy.get("input[id='customer.firstName']").click().clear();
+    cy.get("input[id='customer.address.state']").click().clear();
+    cy.get("input[id='customer.address.zipCode']").click().clear();
+    cy.get("input[value='Update Profile']").click();
+
+
+});
+Cypress.Commands.add('customerCareForm', () => {
+    cy.get("#name").type('Peter')
+    cy.get("#email").type('Peter123@gmail.com')
+    cy.get("#phone").type('16516216516')
+    cy.get("#message").type('help me fix this website')
+    cy.get("input[value='Send to Customer Care']").click();
+
+});
+Cypress.Commands.add('findLogInInfo', () => {
+    cy.fixture('parabank.json').then((userData) => {
+        cy.get("#firstName").type(userData.firstName);
+        cy.get('#lastName').type(userData.lastName);
+        cy.get("input[id='address.street']").type(userData.address);
+        cy.get("input[id='address.city']").type(userData.city);
+        cy.get("input[id='address.state']").type(userData.state);
+        cy.get("input[id='address.zipCode']").type(userData.zipCode);
+        cy.get('#ssn').type(userData.SSN);
+
+
+        cy.get("input[value='Find My Login Info']").click();
+
+
     });
-    
-    Cypress.Commands.add('UpdateProfile', () => {
-            cy.get("input[id='customer.address.street']").clear().type("updatedAdress");
-            cy.get("input[id='customer.address.city']").clear().type("updatedCity");
-            cy.get("input[id='customer.address.state']").clear().type("updatedState");
-            cy.get("input[id='customer.address.zipCode']").clear().type("505165");
-            cy.get("input[value='Update Profile']").click();
-    
-      
-        });
-        Cypress.Commands.add('UpdateProfile2', () => {
-            cy.get("input[id='customer.firstName']").clear().type("updatedName2");
-            cy.get("input[id='customer.lastName']").clear().type("updatedLastName2");
-            cy.get("input[id='customer.phoneNumber']").clear().type("55584452");
-            cy.get("input[value='Update Profile']").click();
-    
-      
-        });
-        Cypress.Commands.add('emptyProfile', () => {
-            cy.get("input[id='customer.firstName']").click().clear();
-            cy.get("input[id='customer.address.state']").click().clear();
-            cy.get("input[id='customer.address.zipCode']").click().clear();
-            cy.get("input[value='Update Profile']").click();
-    
-      
-        });
-        Cypress.Commands.add('customerCareForm', () => {
-            cy.get("#name").type('Peter')
-            cy.get("#email").type('Peter123@gmail.com')
-            cy.get("#phone").type('16516216516')
-            cy.get("#message").type('help me fix this website')
-            cy.get("input[value='Send to Customer Care']").click();
-      
-        });
-        Cypress.Commands.add('findLogInInfo', () => {
-            cy.fixture('parabank.json').then((userData) => {
-                cy.get("#firstName").type(userData.firstName);
-                cy.get('#lastName').type(userData.lastName);
-                cy.get("input[id='address.street']").type(userData.address);
-                cy.get("input[id='address.city']").type(userData.city);
-                cy.get("input[id='address.state']").type(userData.state);
-                cy.get("input[id='address.zipCode']").type(userData.zipCode);
-                cy.get('#ssn').type(userData.SSN);
+});
 
-        
-                cy.get("input[value='Find My Login Info']").click();
-        
-          
-            });
-        });
-        
+Cypress.Commands.add('weakPassword', () => {
+    cy.fixture('parabank.json').then((userData) => {
+
+        cy.get('input[name="customer.firstName"]').type('Tester');
+        cy.get('input[name="customer.lastName"]').type('User');
+        cy.get('input[name="customer.address.street"]').type('123 Test St');
+        cy.get('input[name="customer.address.city"]').type('Test City');
+        cy.get('input[name="customer.address.state"]').type('TS');
+        cy.get('input[name="customer.address.zipCode"]').type('12345');
+        cy.get('input[name="customer.phoneNumber"]').type('123-456-7890');
+        cy.get('input[name="customer.ssn"]').type('123-45-6789');
+        cy.get('input[name="customer.username"]').type(faker.internet.userName());
+        cy.get('input[name="customer.password"]').type('12'); 
+        cy.get('input[name="repeatedPassword"]').type('12'); 
+
+        cy.get('input[value="Register"]').click();
+  
+
+        cy.get('#passwordError')
+          .should('be.visible')
+          .and('contain', 'Password must be at least 8 characters long, contain at least one uppercase letter, and one number.');
+
+
+    });
+});
+
+
+
+
+
+
+Cypress.Commands.add('diffrentPassword', () => {
+    cy.fixture('parabank.json').then((userData) => {
+
+        cy.get('input[name="customer.firstName"]').type('Tester');
+        cy.get('input[name="customer.lastName"]').type('User');
+        cy.get('input[name="customer.address.street"]').type('123 Test St');
+        cy.get('input[name="customer.address.city"]').type('Test City');
+        cy.get('input[name="customer.address.state"]').type('TS');
+        cy.get('input[name="customer.address.zipCode"]').type('12345');
+        cy.get('input[name="customer.phoneNumber"]').type('123-456-7890');
+        cy.get('input[name="customer.ssn"]').type('123-45-6789');
+        cy.get('input[name="customer.username"]').type(faker.internet.userName());
+        cy.get('input[name="customer.password"]').type('12'); 
+        cy.get('input[name="repeatedPassword"]').type('12qqwqw'); 
+
+        cy.get('input[value="Register"]').click();
+  
+
+    });
+});
