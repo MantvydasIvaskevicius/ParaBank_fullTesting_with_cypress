@@ -64,6 +64,7 @@ describe('Successful Registration', () => {
         cy.get('form').should('be.visible');
     });
 
+
     it('Successfully create a user account with valid inputs', () => {
         cy.fillRegistrationForm();
     });
@@ -72,13 +73,19 @@ describe('Successful Registration', () => {
         cy.registrationNoName();
     });
 
-    it('Show error when password is missing in registration form', () => {
+    it('Show error when password did not match in registration form', () => {
         cy.registrationWithWrongPass();
     });
 
     it('Show error when using a pre-registered username', () => {
         cy.registrationAlreadyExist();
     });
+
+    it('registering with an extremely long username or password.', () => {
+        cy.longRegForm();
+        cy.get(selectors.errormsg).should('be.visible');
+    });
+
 });
 
 describe('Login User with Correct Email and Password', () => {
@@ -95,14 +102,29 @@ describe('Login User with Correct Email and Password', () => {
         //bug test pass when email and pass are not correct, generated with faker.
     });
 });
+
+describe("Successful login and logout", () => {
+    beforeEach(() => {
+        cy.verifyHomePageLoads();
+    });
+
+    it("should log in successfully and log out successfully", () => {
+        cy.logIn();
+        cy.get(selectors.logOut).click();
+        cy.url().should('include', 'parabank');
+        cy.get('body').should('be.visible');
+    });
+
+});
+
 describe('User Registration Security Tests', () => {
     it('should show an error message when the password does not meet complexity requirements', () => {
         cy.visit('https://parabank.parasoft.com/parabank/register.htm');
         cy.weakPassword();
         cy.get('input[value="Register"]').click();
         cy.get('#passwordError')
-          .should('be.visible')
-          .and('contain', 'Password must be at least 8 characters long, contain at least one uppercase letter, and one number.');
+            .should('be.visible')
+            .and('contain', 'Password must be at least 8 characters long, contain at least one uppercase letter, and one number.');
     });
 
     it('should not allow SQL injection in the username or password fields', () => {
@@ -117,8 +139,8 @@ describe('User Registration Security Tests', () => {
         cy.visit('https://parabank.parasoft.com/parabank/register.htm');
         cy.diffrentPassword();
         cy.get("span[id='repeatedPassword.errors']")
-          .should('be.visible')
-          .and('have.text', 'Passwords did not match.');
+            .should('be.visible')
+            .and('have.text', 'Passwords did not match.');
     });
 });
 
@@ -136,6 +158,16 @@ describe('Account services functions', () => {
         cy.get(selectors.payCompletevsbl).should('be.visible').and('have.text', 'Bill Payment Complete');
         cy.get(selectors.accOverview).click();
         cy.get(selectors.accOverviewVsbl).should('be.visible').and('have.text', 'Accounts Overview');
+    });
+
+    it('Try to pay a bill without entering payee details.', () => {
+        cy.logIn();
+        cy.get(selectors.billPay).click();
+        cy.get(selectors.billPayVsbl).should('be.visible').and('have.text', 'Bill Payment Service');
+        cy.missingpayeeInfo();
+        cy.get(selectors.payeerror).should('be.visible').and('have.text', "Payee name is required.");
+        cy.get(selectors.accNmrError).should('be.visible').and('have.text', "Account number is required.");
+        cy.get(selectors.accNmrError2).should('be.visible').and('have.text', "Account number is required.");;
     });
 
     it('Open a new "CHECKING" account successfully"', () => {
@@ -169,13 +201,25 @@ describe('Account services functions', () => {
         cy.get(selectors.fromAcc).should('be.visible');
         cy.get(selectors.toAcc).should('be.visible');
     });
+
+    it('Attempt to transfer more money than available balance.', () => {
+        cy.logIn();
+        cy.get(selectors.tranfersFunds).click();
+        cy.get(selectors.tranfersFundsVsbl).should('be.visible');
+        cy.wait(2000);
+        cy.get(selectors.amount).type("11111111111111111111111");
+        cy.get(selectors.tranferBtn).click();
+        cy.get(selectors.errormsg).should('be.visible');
+    });
+
     it('Verify transferred money appears in account overview', () => {
         cy.logIn();
         cy.get(selectors.accOverview).click();
         cy.get(selectors.accOverviewVsbl).should('be.visible').and('have.text', 'Accounts Overview')
-        cy.get(selectors.accnmbr).click();
+
 
     });
+
     it('Update address, city, state, and zip code successfully', () => {
         cy.logIn();
         cy.get(selectors.updateContact).click();
@@ -185,6 +229,7 @@ describe('Account services functions', () => {
         cy.get(selectors.successUpdt).should('be.visible').and('have.text', 'Your updated address and phone number have been added to the system. ');
 
     });
+
     it('Update first name, last name, and phone number successfully', () => {
         cy.logIn();
         cy.get(selectors.updateContact).click();
@@ -205,8 +250,6 @@ describe('Account services functions', () => {
         //bug cant update after clicking update "profile button" getting error.    });
     });
 
-
-
     it('Show error when attempting to update profile with empty fields', () => {
         cy.logIn();
         cy.get(selectors.updateContact).click();
@@ -220,7 +263,6 @@ describe('Account services functions', () => {
 
     });
 
-
     it('Request credit successfully', () => {
         cy.logIn();
         cy.get(selectors.reqLoanClk).click();
@@ -230,7 +272,6 @@ describe('Account services functions', () => {
         cy.get(selectors.loanResult).should('be.visible').and('have.text', 'Loan Request Processed');
 
     });
-
 
     it('Verify Customer Service Contact Form Submission', () => {
         cy.get(selectors.customerCareBtn).click();
@@ -245,11 +286,39 @@ describe('Account services functions', () => {
         cy.get(selectors.lookup).should('be.visible').and('have.text', 'Customer Lookup');
         cy.findLogInInfo();
         cy.get(selectors.recoveraccsuccs).should('be.visible').and('have.text', 'Your login information was located successfully. You are now logged in. ');
-      
+
         //bug getting errror customer information could not be found.
 
     });
-
-
 });
-// Test Case 2.5.2: Verify that weak passwords trigger an error message
+
+describe('CAPTCHA Validation', () => {
+    it('should display CAPTCHA after multiple failed login attempts', () => {
+        cy.verifyHomePageLoads();
+        for (let i = 0; i < 5; i++) {
+            cy.get("input[name='username']").type('wrongUser35463456');
+            cy.get("input[name='password']").type('wrongPass365356435');
+            cy.get("input[value='Log In']").click();
+            cy.wait(1000);
+        }
+
+        cy.get('#captcha').should('be.visible');
+    });
+
+    it('should prevent automated logins if CAPTCHA is present', () => {
+        cy.verifyHomePageLoads();
+
+        for (let i = 0; i < 5; i++) {
+            cy.get("input[name='username']").type('wrongUser345635636');
+            cy.get("input[name='password']").type('wrongPass35634653');
+            cy.get("input[value='Log In']").click();
+            cy.wait(1000);
+        }
+
+        cy.get('#captcha').should('be.visible');
+        cy.get('#captcha-input').type('fakeCaptchaValue');
+        cy.get('button[type="submit"]').click();
+
+        cy.contains('Incorrect CAPTCHA').should('be.visible');
+    });
+});

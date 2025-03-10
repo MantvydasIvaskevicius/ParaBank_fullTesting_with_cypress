@@ -57,6 +57,11 @@ const selectors = {
   
     lookup:".title",
     recoveraccsuccs:"body > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > p:nth-child(2)",
+    logOut:"a[href='logout.htm']",
+    errormsg:"div[id='showError'] p[class='error']",
+    payeerror:"#validationModel-name",
+    accNmrError:"#validationModel-account-empty",
+    accNmrError2:"#validationModel-account-empty",
 };
 
 export default selectors;

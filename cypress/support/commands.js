@@ -39,6 +39,31 @@ Cypress.Commands.add('fillRegistrationForm', () => {
     cy.url().should('include', 'parabank');
     cy.get('body').should('be.visible');
 });
+Cypress.Commands.add('longRegForm', () => {
+    // Generate a long username and password using Faker
+    const username = faker.internet.userName() + 'looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong';
+    const password = faker.internet.password(20) + 'looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong';
+
+    // Fill out the registration form with Faker data
+    cy.get('input[name="customer.firstName"]').type(faker.person.firstName());
+    cy.get('input[name="customer.lastName"]').type(faker.person.lastName());
+    cy.get('input[name="customer.address.street"]').type(faker.location.streetAddress());
+    cy.get('input[name="customer.address.city"]').type(faker.location.city());
+    cy.get('input[name="customer.address.state"]').type(faker.location.state());
+    cy.get('input[name="customer.address.zipCode"]').type(faker.location.zipCode());
+    cy.get('input[name="customer.phoneNumber"]').type(faker.phone.number());
+    cy.get('input[name="customer.ssn"]').type(faker.string.numeric(9));
+
+ 
+    cy.get("input[id='customer.username']").type(username);
+    cy.get("input[id='customer.password']").type(password);
+    cy.get("input[id='repeatedPassword']").type(password);
+
+    cy.get("input[value='Register']").click();
+
+  
+});
+
 
 
 Cypress.Commands.add('registrationNoName', () => {
@@ -147,6 +172,23 @@ Cypress.Commands.add('payeeInfo', () => {
 
     });
 });
+Cypress.Commands.add('missingpayeeInfo', () => {
+    cy.fixture('parabank.json').then((userData) => {
+
+        cy.get("input[name='payee.address.street']").type(userData.address);
+        cy.get("input[name='payee.address.city']").type(userData.city);
+        cy.get("input[name='payee.address.state']").type(userData.state);
+        cy.get("input[name='payee.address.zipCode']").type(userData.zipCode);
+        cy.get('input[name="payee.phoneNumber"]').type(userData.phoneNumber);
+
+   
+        cy.get("input[name='amount']").type(userData.amount);
+
+        cy.get("input[value='Send Payment']").click();
+
+
+    });
+});
 
 Cypress.Commands.add('UpdateProfile', () => {
     cy.get("input[id='customer.address.street']").clear().type("updatedAdress");
@@ -223,11 +265,6 @@ Cypress.Commands.add('weakPassword', () => {
 
     });
 });
-
-
-
-
-
 
 Cypress.Commands.add('diffrentPassword', () => {
     cy.fixture('parabank.json').then((userData) => {
