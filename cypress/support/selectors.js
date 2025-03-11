@@ -62,6 +62,13 @@ const selectors = {
     payeerror:"#validationModel-name",
     accNmrError:"#validationModel-account-empty",
     accNmrError2:"#validationModel-account-empty",
+    loginUser:'input[name="customer.username"',
+    loginPass:'input[name="customer.password"]',
+    loginClick:'input[value="Register"]',
+    homeLogin:"input[name='username']",
+    homePass:"input[name='password']",
+    homeBtn:"input[value='Log In']",
+    submitClk:'button[type="submit"]'
 };
 
 export default selectors;

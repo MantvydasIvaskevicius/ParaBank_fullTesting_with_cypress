@@ -129,9 +129,9 @@ describe('User Registration Security Tests', () => {
 
     it('should not allow SQL injection in the username or password fields', () => {
         cy.visit('https://parabank.parasoft.com/parabank/register.htm');
-        cy.get('input[name="customer.username"]').type("admin' OR 1=1 --");
-        cy.get('input[name="customer.password"]').type('ValidPassword123!');
-        cy.get('input[value="Register"]').click();
+        cy.get(selectors.loginUser).type("admin' OR 1=1 --");
+        cy.get(selectors.loginPass).type('ValidPassword123!');
+        cy.get(selectors.loginClick).click();
         cy.wait(2000);
     });
 
@@ -296,9 +296,9 @@ describe('CAPTCHA Validation', () => {
     it('should display CAPTCHA after multiple failed login attempts', () => {
         cy.verifyHomePageLoads();
         for (let i = 0; i < 5; i++) {
-            cy.get("input[name='username']").type('wrongUser35463456');
-            cy.get("input[name='password']").type('wrongPass365356435');
-            cy.get("input[value='Log In']").click();
+            cy.get(selectors.homeLogin).type('wrongUser35463456');
+            cy.get(selectors.homePass).type('wrongPass365356435');
+            cy.get(selectors.homeBtn).click();
             cy.wait(1000);
         }
 
@@ -309,15 +309,15 @@ describe('CAPTCHA Validation', () => {
         cy.verifyHomePageLoads();
 
         for (let i = 0; i < 5; i++) {
-            cy.get("input[name='username']").type('wrongUser345635636');
-            cy.get("input[name='password']").type('wrongPass35634653');
-            cy.get("input[value='Log In']").click();
+            cy.get(selectors.homeLogin).type('wrongUser345635636');
+            cy.get(selectors.homePass).type('wrongPass35634653');
+            cy.get(selectors.homeBtn).click();
             cy.wait(1000);
         }
 
         cy.get('#captcha').should('be.visible');
         cy.get('#captcha-input').type('fakeCaptchaValue');
-        cy.get('button[type="submit"]').click();
+        cy.get(selectors.submitClk).click();
 
         cy.contains('Incorrect CAPTCHA').should('be.visible');
     });
