@@ -1,38 +1,38 @@
-name: Cypress Tests
+name: Run Cypress Tests
 
-on:  
-  push:  
-    branches: [main]  
-  pull_request:  
-    branches: [main]  
+on:
+  push:
+    branches:
+      - main  # Adjust the branch name if needed (e.g., 'master')
+  pull_request:
+    branches:
+      - main  # Run on pull requests to the main branch
 
-jobs:  
-  cypress-run:  
-    runs-on: ubuntu-latest  
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'  # Use the Node.js version you want
 
-    steps:  
-      - name: Checkout repository  
-        uses: actions/checkout@v4  
+    - name: Install dependencies
+      run: |
+        npm install
+        npm ci  # If you are using npm ci for a clean install
 
-      - name: Set up Node.js  
-        uses: actions/setup-node@v4  
-        with:  
-          node-version: 18  
+    - name: Run Cypress tests
+      run: npm run test  # Assuming you have `test` defined in package.json as "cypress run"
 
-      - name: Install dependencies  
-        run: npm install  
-
-      - name: Build app  
-        run: npm run build  
-
-      - name: Run Cypress tests  
-        uses: cypress-io/github-action@v6  
-        with:  
-          build: npm run build  
-          start: npm start  
-          wait-on: http://localhost:3000  
-
-      - run: npm ci
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    - name: Upload Cypress videos and screenshots
+      uses: actions/upload-artifact@v3
+      with:
+        name: cypress-results
+        path: |
+          cypress/videos
+          cypress/screenshots
