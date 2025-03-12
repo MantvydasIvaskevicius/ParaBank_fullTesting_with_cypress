@@ -5,6 +5,7 @@ on: [push, pull_request]
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -19,6 +20,12 @@ jobs:
 
       - name: List Files in cypress/fixtures (Debugging)
         run: ls -la cypress/fixtures
+
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Print the contents of the repository (Debugging)
+        run: ls -R
 
       - name: Run Cypress Tests
         run: npx cypress run
