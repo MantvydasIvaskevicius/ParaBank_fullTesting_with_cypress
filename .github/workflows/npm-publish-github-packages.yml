@@ -1,38 +1,28 @@
-name: Run Cypress Tests
+name: Node.js CI
 
 on:
   push:
-    branches:
-      - main  # Adjust the branch name if needed (e.g., 'master')
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main  # Run on pull requests to the main branch
+    branches: [ "main" ]
 
 jobs:
-  cypress-run:
+  build:
+
     runs-on: ubuntu-latest
-    
+
+    strategy:
+      matrix:
+        node-version: [22.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-    
-    - name: Set up Node.js
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
-        node-version: '18'  # Use the Node.js version you want
-
-    - name: Install dependencies
-      run: |
-        npm install
-        npm ci  # If you are using npm ci for a clean install
-
-    - name: Run Cypress tests
-      run: npm run test  # Assuming you have `test` defined in package.json as "cypress run"
-
-    - name: Upload Cypress videos and screenshots
-      uses: actions/upload-artifact@v3
-      with:
-        name: cypress-results
-        path: |
-          cypress/videos
-          cypress/screenshots
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+   
+    - run: npm ci
+    - run: npx cypress run 
