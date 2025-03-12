@@ -1,31 +1,49 @@
-name: Run Cypress Tests
+name: Cypress Tests
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '18'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: List Files in cypress/fixtures (Debugging)
-        run: ls -la cypress/fixtures
+      - name: Verify Cypress Installation
+        run: npx cypress verify
 
-      - name: Check out the repository
-        uses: actions/checkout@v2
-
-      - name: Print the contents of the repository (Debugging)
-        run: ls -R
+      - name: Debug - List Files in Cypress Directory
+        run: ls -R cypress/
 
       - name: Run Cypress Tests
-        run: npx cypress run
+        run: npx cypress run --browser chrome
+        env:
+          CYPRESS_BASE_URL: "https://parabank.parasoft.com/parabank/"
+
+      - name: Upload Cypress Screenshots (if tests fail)
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
+      - name: Upload Cypress Videos (if tests fail)
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-videos
+          path: cypress/videos
