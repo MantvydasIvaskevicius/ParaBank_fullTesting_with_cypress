@@ -3,40 +3,40 @@ name: Cypress E2E Testing
 on:
   push:
     branches:
-      - "main"
+      - "main"  # Triggers the workflow when changes are pushed to the main branch.
   pull_request:
     branches:
-      - "main"
+      - "main"  # Triggers the workflow when a pull request is created for the main branch.
 
 jobs:
   e2e-test:
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-latest  # Specifies the runner environment (Ubuntu in this case).
+
     strategy:
       matrix:
-           node-version: [22.x]
+           node-version: [22.x]  # Defines a matrix of Node.js versions to test. Currently, it's set to 22.x.
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4  # Checks out the repository code to the runner.
       with:
-        fetch-depth: 0  # Ensure all history is fetched so Cypress can access all files
+        fetch-depth: 0  # Ensures all commit history is fetched, necessary for some Cypress features (like screenshots).
 
     - name: Set up Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v4  # Sets up the specified Node.js version.
       with:
-        node-version: ${{ matrix.node-version }}
-    
+        node-version: ${{ matrix.node-version }}  # Uses the version defined in the matrix (22.x in this case).
+
     - name: Install dependencies
-      run: npm ci  # This ensures dependencies are installed from package-lock.json
+      run: npm ci  # Installs dependencies based on the package-lock.json file to ensure consistency.
 
     - name: Run Cypress tests
-      run: npx cypress run  # This will run the Cypress tests
+      run: npx cypress run  # Runs Cypress tests using npx, which runs Cypress without needing a global installation.
 
     - name: Upload Cypress screenshots and videos
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v3  # Uploads Cypress test artifacts (screenshots, videos).
       with:
-        name: cypress-artifacts
+        name: cypress-artifacts  # Name of the artifact.
         path: |
-          cypress/screenshots
-          cypress/videos
+          cypress/screenshots  # Path to screenshots.
+          cypress/videos  # Path to videos.
