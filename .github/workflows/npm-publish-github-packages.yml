@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -18,6 +17,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0   # This ensures full repository history is checked out
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
@@ -25,4 +26,4 @@ jobs:
         cache: 'npm'
    
     - run: npm ci
-    - run: npx cypress run 
+    - run: npx cypress run
