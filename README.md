@@ -18,7 +18,7 @@ This repository contains automated end-to-end tests for the ParaBank application
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/your-username/parabank-cypress-tests.git
+   git clone https://github.com/MantvydasIvaskevicius/parabank-cypress-tests.git
    ```
 2. Navigate to the project folder:
    ```sh
