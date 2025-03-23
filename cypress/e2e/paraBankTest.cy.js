@@ -77,11 +77,11 @@ describe('Successful Registration', () => {
         cy.registrationWithWrongPass();
     });
 
-    it.skip('Show error when using a pre-registered username', () => {
+    it('Show error when using a pre-registered username', () => {
         cy.registrationAlreadyExist();
     });
 
-    it.skip('registering with an extremely long username or password.', () => {
+    it('registering with an extremely long username or password.', () => {
         cy.longRegForm();
         cy.get(selectors.errormsg).should('be.visible');
     });
@@ -97,7 +97,7 @@ describe('Login User with Correct Email and Password', () => {
         cy.logIn();
     });
 
-    it.skip('Verify error message appears for incorrect email and password', () => {
+    it('Verify error message appears for incorrect email and password', () => {
         cy.wronglogIn();
         //bug test pass when email and pass are not correct, generated with faker.
     });
@@ -118,7 +118,7 @@ describe("Successful login and logout", () => {
 });
 
 describe('User Registration Security Tests', () => {
-    it.skip('should show an error message when the password does not meet complexity requirements', () => {
+    it('should show an error message when the password does not meet complexity requirements', () => {
         cy.visit('https://parabank.parasoft.com/parabank/register.htm');
         cy.weakPassword();
         cy.get('input[value="Register"]').click();
@@ -293,7 +293,7 @@ describe('Account services functions', () => {
 });
 
 describe('CAPTCHA Validation', () => {
-    it.skip('should display CAPTCHA after multiple failed login attempts', () => {
+    it('should display CAPTCHA after multiple failed login attempts', () => {
         cy.verifyHomePageLoads();
         for (let i = 0; i < 5; i++) {
             cy.get(selectors.homeLogin).type('wrongUser35463456');
@@ -305,7 +305,7 @@ describe('CAPTCHA Validation', () => {
         cy.get('#captcha').should('be.visible');
     });
 
-    it.skip('should prevent automated logins if CAPTCHA is present', () => {
+    it('should prevent automated logins if CAPTCHA is present', () => {
         cy.verifyHomePageLoads();
 
         for (let i = 0; i < 5; i++) {
