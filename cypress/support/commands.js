@@ -113,18 +113,18 @@ Cypress.Commands.add('registrationWithWrongPass', () => {
 
 Cypress.Commands.add('registrationAlreadyExist', () => {
     cy.fixture('parabank.json').then((userData) => {
-        cy.get('input[name="customer.firstName"]').type("Petras");
-        cy.get('input[name="customer.lastName"]').type("Jonas");
-        cy.get('input[name="customer.address.street"]').type("Vilniaus g. 243, 2 ");
-        cy.get('input[name="customer.address.city"]').type("Vilnius");
-        cy.get('input[name="customer.address.state"]').type("Vilniaus apskritis");
-        cy.get('input[name="customer.address.zipCode"]').type("LT00100");
-        cy.get('input[name="customer.phoneNumber"]').type("8155234567");
-        cy.get('input[name="customer.ssn"]').type("563934927");
+        cy.get('input[name="customer.firstName"]').type(userData.firstName);
+        cy.get('input[name="customer.lastName"]').type(userData.lastName);
+        cy.get('input[name="customer.address.street"]').type(userData.address);
+        cy.get('input[name="customer.address.city"]').type(userData.city);
+        cy.get('input[name="customer.address.state"]').type(userData.state);
+        cy.get('input[name="customer.address.zipCode"]').type(userData.zipCode);
+        cy.get('input[name="customer.phoneNumber"]').type(userData.phoneNumber);
+        cy.get('input[name="customer.ssn"]').type(userData.SSN);
 
-        cy.get("input[id='customer.username']").type("petras24");
-        cy.get("input[id='customer.password']").type("Petras2424");
-        cy.get("input[id='repeatedPassword']").type("Petras2424");
+        cy.get("input[id='customer.username']").type(userData.userName);
+        cy.get("input[id='customer.password']").type(userData.userPassword);
+        cy.get("input[id='repeatedPassword']").type(userData.userPassword);
 
         cy.get("input[value='Register']").click();
 
@@ -136,8 +136,8 @@ Cypress.Commands.add('logIn', () => {
     cy.fixture('parabank.json').then((userData) => {
 
         cy.get("div[id='leftPanel'] h2").should("be.visible").and('have.text', 'Customer Login')
-        cy.get("input[name='username']").type("petras24");
-        cy.get("input[name='password']").type("Petras2424");
+        cy.get("input[name='username']").type(userData.userName);
+        cy.get("input[name='password']").type(userData.userPassword);
         cy.get("input[value='Log In']").click();
 
     });
@@ -156,16 +156,16 @@ Cypress.Commands.add('wronglogIn', () => {
 
 Cypress.Commands.add('payeeInfo', () => {
     cy.fixture('parabank.json').then((userData) => {
-        cy.get("input[name='payee.name']").type("Petras");
-        cy.get("input[name='payee.address.street']").type("Vilniaus g. 243, 2 ");
-        cy.get("input[name='payee.address.city']").type("Vilnius");
-        cy.get("input[name='payee.address.state']").type("Vilniaus apskritis");
-        cy.get("input[name='payee.address.zipCode']").type("LT00100");
-        cy.get('input[name="payee.phoneNumber"]').type("8155234567");
+        cy.get("input[name='payee.name']").type(userData.firstName);
+        cy.get("input[name='payee.address.street']").type(userData.address);
+        cy.get("input[name='payee.address.city']").type(userData.city);
+        cy.get("input[name='payee.address.state']").type(userData.state);
+        cy.get("input[name='payee.address.zipCode']").type(userData.zipCode);
+        cy.get('input[name="payee.phoneNumber"]').type(userData.phoneNumber);
 
-        cy.get("input[name='payee.accountNumber']").type("12345");
-        cy.get("input[name='verifyAccount']").type("12345");
-        cy.get("input[name='amount']").type("1");
+        cy.get("input[name='payee.accountNumber']").type(userData.accountNumber);
+        cy.get("input[name='verifyAccount']").type(userData.verifyAccountNumber);
+        cy.get("input[name='amount']").type(userData.amount);
 
         cy.get("input[value='Send Payment']").click();
 
@@ -175,14 +175,14 @@ Cypress.Commands.add('payeeInfo', () => {
 Cypress.Commands.add('missingpayeeInfo', () => {
     cy.fixture('parabank.json').then((userData) => {
 
-        cy.get("input[name='payee.address.street']").type("Vilniaus g. 243, 2 ");
-        cy.get("input[name='payee.address.city']").type("Vilnius");
-        cy.get("input[name='payee.address.state']").type("Vilniaus apskritis");
-        cy.get("input[name='payee.address.zipCode']").type("LT00100");
-        cy.get('input[name="payee.phoneNumber"]').type("8155234567");
+        cy.get("input[name='payee.address.street']").type(userData.address);
+        cy.get("input[name='payee.address.city']").type(userData.city);
+        cy.get("input[name='payee.address.state']").type(userData.state);
+        cy.get("input[name='payee.address.zipCode']").type(userData.zipCode);
+        cy.get('input[name="payee.phoneNumber"]').type(userData.phoneNumber);
 
    
-        cy.get("input[name='amount']").type("1");
+        cy.get("input[name='amount']").type(userData.amount);
 
         cy.get("input[value='Send Payment']").click();
 
@@ -225,13 +225,13 @@ Cypress.Commands.add('customerCareForm', () => {
 });
 Cypress.Commands.add('findLogInInfo', () => {
     cy.fixture('parabank.json').then((userData) => {
-        cy.get("#firstName").type("Petras");
-        cy.get('#lastName').type("Jonas");
-        cy.get("input[id='address.street']").type("Vilniaus g. 243, 2 ");
-        cy.get("input[id='address.city']").type("Vilnius");
-        cy.get("input[id='address.state']").type("Vilniaus apskritis");
-        cy.get("input[id='address.zipCode']").type("LT00100");
-        cy.get('#ssn').type("563934927");
+        cy.get("#firstName").type(userData.firstName);
+        cy.get('#lastName').type(userData.lastName);
+        cy.get("input[id='address.street']").type(userData.address);
+        cy.get("input[id='address.city']").type(userData.city);
+        cy.get("input[id='address.state']").type(userData.state);
+        cy.get("input[id='address.zipCode']").type(userData.zipCode);
+        cy.get('#ssn').type(userData.SSN);
 
 
         cy.get("input[value='Find My Login Info']").click();
