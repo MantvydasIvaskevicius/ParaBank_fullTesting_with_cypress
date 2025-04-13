@@ -99,7 +99,7 @@ describe('Login User with Correct Email and Password', () => {
 
     it('Verify error message appears for incorrect email and password', () => {
         cy.wronglogIn();
-        //bug test pass when email and pass are not correct, generated with faker.
+        //bug test pass when email and pass are not correct, generated with faker. 
     });
 });
 
