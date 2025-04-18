@@ -82,5 +82,6 @@ To run the Cypress tests, use the following command:
 
 ### 🛡 CAPTCHA Validation
 
+
 - 🔍 Verify CAPTCHA appears after multiple failed login attempts.
 - 🚫 Ensure automated logins are blocked if CAPTCHA is present.
