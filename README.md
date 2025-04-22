@@ -1,6 +1,6 @@
 # 🚀 ParaBank Cypress Test Suite
 
-This repository contains automated end-to-end tests for the ParaBank application using [Cypress](https://www.cypress.io/).
+This repository contains automated end-to-end tests for the ParaBank application using [Cypress](https://www.cypress.io/)
 
 ## 📜 Table of Contents
 
