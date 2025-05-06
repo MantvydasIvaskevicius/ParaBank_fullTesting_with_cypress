@@ -4,6 +4,8 @@ This repository contains automated end-to-end tests for the ParaBank application
 
 ## 📜 Table of Contents
 
+
+
 - [💾 Installation](#installation)
 - [🧪 Running Tests](#running-tests)
 - [✅ Test Cases](#test-cases)
