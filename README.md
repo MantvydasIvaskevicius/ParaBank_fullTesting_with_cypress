@@ -29,6 +29,7 @@ This repository contains automated end-to-end tests for the ParaBank application
    npm install
    ```
 
+
 ## 🧪 Running Tests
 
 To run the Cypress tests, use the following command:
@@ -85,3 +86,4 @@ To run the Cypress tests, use the following command:
 
 - 🔍 Verify CAPTCHA appears after multiple failed login attempts.
 - 🚫 Ensure automated logins are blocked if CAPTCHA is present.
+
